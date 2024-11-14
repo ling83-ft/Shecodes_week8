@@ -17,14 +17,21 @@ function changeDetails(response) {
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon">`;
 }
 function search(event) {
-  event.preventDefault();
-  let searchInput = document.querySelector("#search-form-input");
   let cityElement = document.querySelector("#city");
-  cityElement.innerHTML = searchInput.value;
+  let searchInput = document.querySelector("#search-form-input");
+  let searchCity;
+  if (event) {
+    event.preventDefault();
+    cityElement.innerHTML = searchInput.value;
+    searchCity = searchInput.value;
+  } else {
+    searchCity = "Paris";
+    cityElement.innerHTML = searchCity;
+  }
 
   //call api and search city
   let apiKey = "4a38ba6a1f4e46ao3f0t9673657bc0fc";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${searchInput.value}&key=${apiKey}`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${searchCity}&key=${apiKey}`;
   axios.get(apiUrl).then(changeDetails);
 }
 
@@ -57,6 +64,7 @@ function formatDate(date) {
 }
 
 formatDate(new Date());
+search();
 
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", search);
